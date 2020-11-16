@@ -14,7 +14,7 @@ Flask is just the barebone, not like other full stake web development framework 
 
 1. Activate the pipenv by running` pipenv shell`.
 
-1. Download postman from [here](https://www.postman.com/downloads/)to check the apis.
+1. Download postman from [here](https://www.postman.com/downloads/) to check the apis.
 
 
 
@@ -26,7 +26,7 @@ You can quick start by following this [link](https://flask.palletsprojects.com/e
 
 Create a course_plain.py file  and put the codes below in there.
 
-```
+```python
 from flask import Flask, jsonify, request, Response
 import json
 ```
@@ -34,14 +34,14 @@ import json
 
 Create an instance of Flask class.
 
-```
+```python
 app = Flask(__name__) 
 ```
 
 
 Create a basic `course` list 
 
-```
+```python
 courses = [
     {
         'name': 'Introduction to neural network',
@@ -59,7 +59,7 @@ courses = [
 
 Create `get_courses` function for the GET method to retrieve all courses. Here, `app.route` decorator needs parameter for url link. `jsonify` will serialize the data to json object.
 
-```
+```python
 @app.route('/courses')
 def get_courses():
     return jsonify({'courses': courses})
@@ -68,7 +68,7 @@ def get_courses():
 
 You can get a single course also. Here, we pass an argument in the link.
 
-```
+```python
 @app.route('/courses/<string:code>')
 def get_course(code):
     result = {}
@@ -85,7 +85,7 @@ def get_course(code):
 
 You can create a request using POST method. Here, we validate the data by check the `code` key is provided. Here, `Response` will give status code 201 when it successfully create a new course. It will show an error message with status code 400 when the validation is failed.
 
-```
+```python
 @app.route('/courses', methods=['POST'])
 def post_course():
     data = request.get_json()
@@ -109,7 +109,7 @@ def post_course():
 
 We can do PUT request by sending all data to update a single course’s all value. The responses are same.
 
-```
+```python
 @app.route('/courses/<string:code>', methods=['PUT'])
 def put_course(code):
     data = request.get_json()
@@ -132,7 +132,7 @@ def put_course(code):
 
 Also, for partial update, we can use PATCH method. The responses are same.
 
-```
+```python
 @app.route('/courses/<string:code>', methods=['PATCH'])
 def patch_course(code):
     data = request.get_json()
@@ -157,7 +157,7 @@ def patch_course(code):
 
 Delete a course, we can use DELETE method in the decorator. The responses are same.
 
-```
+```python
 @app.route('/courses/<string:code>', methods=['DELETE'])
 def delete_course(code):
     for course in courses:
@@ -177,7 +177,7 @@ def delete_course(code):
 
 To run the app in port 5000, add these codes.
 
-```
+```python
 app.run(port=5000, host="0.0.0.0") 
 ```
 
@@ -195,7 +195,7 @@ For ORM, you can run `pipenv install Flask-SQLAlchemy`. You can read the documen
 
 Create a settings.py file and add these codes.
 
-```
+```python
 from flask import Flask
 
 # create an instance of Flask class
@@ -211,7 +211,7 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 Create a courseModel.py and add these codes. `Course` object represents the course table
 
-```
+```python
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import json
@@ -275,7 +275,7 @@ class Course(db.Model):
 
 Create create_database.py and add following codes.
 
-```
+```python
 from courseModel import db, Course
 # creating the databse - this file will run only once
 db.create_all()
@@ -296,7 +296,7 @@ You can view the database’s sql code just by running `cat database.db` in comm
 
 Create a file named course_db.py and add below codes.
 
-```
+```python
 from flask import Flask, jsonify, request, Response
 from courseModel import *
 from settings import *
@@ -306,7 +306,7 @@ import json
 
 Create `get_courses` function for the GET method to retrieve all courses.
 
-```
+```python
 @app.route('/courses')
 def get_courses():
     return jsonify({'courses': Course.get_all_courses()})
@@ -315,7 +315,7 @@ def get_courses():
 
 Create `get_course` function to retrieve a single course by course code.
 
-```
+```python
 @app.route('/courses/<string:code>')
 def get_course(code):
     result = Course.get_course(code=code)
@@ -325,7 +325,7 @@ def get_course(code):
 
 Create `post_course` method to insert a new course in database.
 
-```
+```python
 @app.route('/courses', methods=['POST'])
 def post_course():
     data = request.get_json()
@@ -345,7 +345,7 @@ def post_course():
 
 Method for deleting course isbelow.
 
-```
+```python
 @app.route('/courses/<string:code>', methods=['DELETE'])
 def delete_course(code):
     if(Course.delete_course(code=code)):
@@ -363,7 +363,7 @@ def delete_course(code):
 
 Method for update course is below.
 
-```
+```python
 # PUT request need to send all data to update, but PATCH can do partial update
 @app.route('/courses/<string:code>', methods=['PUT'])
 def put_course(code):
@@ -400,7 +400,7 @@ def patch_course(code):
 
 To run the app in port 5000, add these codes.
 
-```
+```python
 app.run(port=5000) 
 ```
 
@@ -420,14 +420,14 @@ Here, we show basic authentication system. But to need more secure authenticatio
 
 Put following line of code in settings.py
 
-```
+```python
 # secret key for JWT
 app.config["SECRET_KEY"] = "your.name"
 ```
 
 Create a userModel.py and add these codes for User database. Here, `match_user` will match the username and password.
 
-```
+```python
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import json
@@ -462,7 +462,7 @@ class User(db.Model):
 
 Run these lines from command prompt to crate a dummy user:
 
-```
+```python
 python
 from userModel import *
 # creating the databse - this file will run only once
@@ -474,7 +474,7 @@ print(User.get_all_users())
 
 Now, create a file named course_db_authenticate.py and put following codes:
 
-```
+```python
 from flask import Flask, jsonify, request, Response
 from functools import wraps
 from courseModel import *
@@ -591,7 +591,7 @@ def delete_course(code):
 
     
 # Run the app in port 5000
-app.run(port=5000) 
+app.run(port=5000, host="0.0.0.0") 
 ```
 
 The `login` method creates a token for valid user. The `token_required` is a wrapper function for all other protected routes, so this method pass to other methods.
