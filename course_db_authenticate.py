@@ -114,4 +114,4 @@ def delete_course(code):
 
     
 # Run the app in port 5000
-app.run(port=5000) 
+app.run(port=5000, host="0.0.0.0") 

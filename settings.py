@@ -4,7 +4,7 @@ from flask import Flask
 app = Flask(__name__) 
 
 # https://flask-sqlalchemy.palletsprojects.com/en/2.x/config/
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///C:/T.Faisal/OFFICE/example-flask/pluralsight/database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 # secret key for JWT
